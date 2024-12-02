@@ -396,7 +396,7 @@ def pembelian_pass(username_saya):
                                 print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan")
                                 harga_diskon = total_harga
                         else:
-                            print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan...")
+                            print(f"\nKode {kode_hadiah} yang Anda masukkan tidak valid...")
                             harga_diskon = total_harga
 
                         print(f"\nHarga yang harus dibayar: {harga_diskon} gems")
@@ -453,7 +453,6 @@ def pembelian_event(username_saya):
         opsi = input("\nPilih item (masukkan nomor opsi): ")
         if opsi == "0":
             menu_utama(username_saya)
-            return
 
         try:
             jumlah = int(input("Jumlah item: "))
@@ -504,7 +503,7 @@ def pembelian_event(username_saya):
                             print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan...")
                             harga_diskon = total_harga
                     else:
-                        print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan...")
+                        print(f"\nKode {kode_hadiah} yang Anda masukkan tidak valid...")
                         harga_diskon = total_harga
 
                     
