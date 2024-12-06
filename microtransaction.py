@@ -13,7 +13,7 @@ data_akun = (
         "username":"anggur_muda",
         "password":"yntkts",
         "saldo":300000,
-        "gems":0,
+        "gems":10000000,
         "akun":"Biasa"
     }
     )
@@ -285,29 +285,28 @@ def pembelian_normal(username_saya):
         for status in data_akun:
             if status["username"] == username_saya:
                 total_harga = item_terpilih["gems"] * jumlah
+                diskon = 0
+                harga_diskon = total_harga
                 if status["gems"] >= total_harga:
 
                     if kode_benar:
-                        if kode_benar["dipakai"] <= kode_benar["batas"]:
+                        if kode_benar["dipakai"] < kode_benar["batas"]:
                             if total_harga >= kode_benar["syarat"]:
+                                kode_benar["dipakai"] += 1
                                 diskon = kode_benar["diskon"]
                                 harga_diskon = total_harga - diskon
-                                kode_benar["dipakai"] += 1
-                                print(f"\nItem yang Anda beli: {item_terpilih['item']}")
-                                print(f"Jumlah item: {jumlah}")
-                                print(f"Harga awal: {total_harga} gems")
-                                print(f"Diskon: {diskon} gems")
-                                print(f"Harga setelah diskon: {harga_diskon} gems")
                             else:
                                 print(f"\nVoucher {kode_hadiah} tidak berlaku karena total harga Anda kurang dari {kode_benar['syarat']} gems..")
-                                harga_diskon = total_harga
                         else:
                             print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan...")
-                            harga_diskon = total_harga
-                    else:
+                    elif kode_hadiah:
                         print(f"\nKode {kode_hadiah} yang Anda masukkan tidak valid...")
-                        harga_diskon = total_harga
 
+                    print(f"\nItem yang Anda beli: {item_terpilih['item']}")
+                    print(f"Jumlah item: {jumlah}")
+                    print(f"Harga awal: {total_harga} gems")
+                    print(f"Diskon: {diskon} gems")
+                    print(f"Harga setelah diskon: {harga_diskon} gems")
                     print(f"\nHarga yang harus dibayar: {harga_diskon} gems")
                     pilih = input("Apakah Anda ingin membeli? (ya/tidak): ").lower()
 
@@ -319,19 +318,19 @@ def pembelian_normal(username_saya):
                             return menu_utama(username_saya)
                         else:
                             print("\nGems Anda tidak cukup untuk membeli item ini...")
-                            menu_utama(username_saya)
+                            return menu_utama(username_saya)
                     elif pilih == "tidak":
                         print("\nPembelian dibatalkan...")
                         return menu_utama(username_saya)
                     else:
                         print("\nPilihan tidak valid, pembelian dibatalkan...")
-                        menu_utama(username_saya)
+                        return menu_utama(username_saya)
                 else:
                     print("\nGems Anda tidak cukup untuk membeli item ini...")
-                    menu_utama(username_saya)
+                    return menu_utama(username_saya)
     else:
         print("\nOpsi yang Anda pilih tidak ada, silakan sesuaikan pilihan Anda...")
-        menu_utama(username_saya)
+        return menu_utama(username_saya)
 
 def pembelian_pass(username_saya):
     print("╭──── ⋅ ⋅ ── ✩ ── ⋅ ⋅ ────╮")
@@ -376,29 +375,28 @@ def pembelian_pass(username_saya):
             if status["username"] == username_saya:
                 if status["akun"] == "VIP":  
                     total_harga = item_terpilih["gems"] * jumlah
+                    diskon = 0
+                    harga_diskon = total_harga
                     if status["gems"] >= total_harga:
 
                         if kode_benar:
-                            if kode_benar["dipakai"] <= kode_benar["batas"]:
+                            if kode_benar["dipakai"] < kode_benar["batas"]:
                                 if total_harga >= kode_benar["syarat"]:
                                     diskon = kode_benar["diskon"]
                                     harga_diskon = total_harga - diskon
                                     kode_benar["dipakai"] += 1
-                                    print(f"\nItem yang Anda beli: {item_terpilih['item']}")
-                                    print(f"Jumlah item: {jumlah}")
-                                    print(f"Harga awal: {total_harga} gems")
-                                    print(f"Diskon: {diskon} gems")
-                                    print(f"Harga setelah diskon: {harga_diskon} gems")
                                 else:
                                     print(f"\nVoucher {kode_hadiah} tidak berlaku karena total harga Anda kurang dari {kode_benar['syarat']} gems.")
-                                    harga_diskon = total_harga
                             else:
                                 print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan")
-                                harga_diskon = total_harga
                         else:
                             print(f"\nKode {kode_hadiah} yang Anda masukkan tidak valid...")
-                            harga_diskon = total_harga
 
+                        print(f"\nItem yang Anda beli: {item_terpilih['item']}")
+                        print(f"Jumlah item: {jumlah}")
+                        print(f"Harga awal: {total_harga} gems")
+                        print(f"Diskon: {diskon} gems")
+                        print(f"Harga setelah diskon: {harga_diskon} gems")
                         print(f"\nHarga yang harus dibayar: {harga_diskon} gems")
                         pilih = input("Apakah Anda ingin membeli? (ya/tidak): ").lower()
 
@@ -407,25 +405,25 @@ def pembelian_pass(username_saya):
                                 status["gems"] -= harga_diskon
                                 print(f"Pembelian berhasil! {jumlah} {item_terpilih['item']} telah dibeli.")
                                 print(f"Gems Anda sekarang: {status['gems']} gems")
-                                menu_utama(username_saya)
+                                return menu_utama(username_saya)
                             else:
                                 print("\nGems Anda tidak cukup untuk membeli item ini...")
-                                menu_utama(username_saya)
+                                return menu_utama(username_saya)
                         elif pilih == "tidak":
                             print("\nPembelian dibatalkan...")
-                            menu_utama(username_saya)
+                            return menu_utama(username_saya)
                         else:
                             print("\nPilihan tidak valid, pembelian dibatalkan...")
-                            menu_utama(username_saya)
+                            return menu_utama(username_saya)
                     else:
                         print("\nGems Anda tidak cukup untuk membeli item ini...")
-                        menu_utama(username_saya)
+                        return menu_utama(username_saya)
                 else:
                     print("\nAkun Anda belum VIP. Item pass hanya dapat dibeli untuk akun VIP...")
-                    menu_utama(username_saya)
+                    return menu_utama(username_saya)
     else:
         print("Opsi yang Anda pilih tidak ada, silakan sesuaikan pilihan Anda...")
-        menu_utama(username_saya)
+        return menu_utama(username_saya)
 
 def pembelian_event(username_saya):
     print("╭──── ⋅ ⋅ ── ✩ ── ⋅ ⋅ ────╮")
@@ -482,31 +480,28 @@ def pembelian_event(username_saya):
         for status in data_akun:
             if status["username"] == username_saya:
                 total_harga = item_terpilih["gems"] * jumlah
+                diskon = 0
+                harga_diskon = total_harga
                 if status["gems"] >= total_harga:
-
-                    harga_diskon = total_harga
                     if kode_benar:
                         if kode_benar["dipakai"] < kode_benar["batas"]:
                             if total_harga >= kode_benar["syarat"]:
                                 diskon = kode_benar["diskon"]
                                 harga_diskon = total_harga - diskon
                                 kode_benar["dipakai"] += 1
-                                print(f"\nItem yang Anda beli: {item_terpilih['item']}")
-                                print(f"Jumlah item: {jumlah}")
-                                print(f"Harga awal: {total_harga} gems")
-                                print(f"Diskon: {diskon} gems")
-                                print(f"Harga setelah diskon: {harga_diskon} gems")
                             else:
                                 print(f"\nVoucher {kode_hadiah} tidak berlaku karena total harga Anda kurang dari {kode_benar['syarat']} gems...")
                                 harga_diskon = total_harga
                         else:
                             print(f"\nVoucher {kode_hadiah} telah mencapai batas penggunaan sehingga tidak dapat digunakan...")
-                            harga_diskon = total_harga
                     else:
                         print(f"\nKode {kode_hadiah} yang Anda masukkan tidak valid...")
-                        harga_diskon = total_harga
 
-                    
+                    print(f"\nItem yang Anda beli: {item_terpilih['item']}")
+                    print(f"Jumlah item: {jumlah}")
+                    print(f"Harga awal: {total_harga} gems")
+                    print(f"Diskon: {diskon} gems")
+                    print(f"Harga setelah diskon: {harga_diskon} gems")
                     print(f"\nHarga yang harus dibayar: {harga_diskon} gems")
                     pilih = input("Apakah Anda ingin membeli? (ya/tidak): ").lower()
 
@@ -515,22 +510,22 @@ def pembelian_event(username_saya):
                             status["gems"] -= harga_diskon
                             print(f"Pembelian berhasil! {jumlah} {item_terpilih['item']} telah dibeli...")
                             print(f"Gems Anda sekarang: {status['gems']} gems")
-                            menu_utama(username_saya)
+                            return menu_utama(username_saya)
                         else:
                             print("\nGems Anda tidak cukup untuk membeli item ini...")
-                            menu_utama(username_saya)
+                            return menu_utama(username_saya)
                     elif pilih == "tidak":
                         print("\nPembelian dibatalkan...")
-                        menu_utama(username_saya)
+                        return menu_utama(username_saya)
                     else:
                         print("\nPilihan tidak valid, pembelian dibatalkan...")
-                        menu_utama(username_saya)
+                        return menu_utama(username_saya)
                 else:
                     print("\nGems Anda tidak cukup untuk membeli item ini...")
-                    menu_utama(username_saya)
+                    return menu_utama(username_saya)
     else:
         print("Opsi yang Anda pilih tidak ada, silakan sesuaikan pilihan Anda...")
-        menu_utama(username_saya)
+        return menu_utama(username_saya)
         
 def proses_top_up(username_saya):
     print("\n┏━━━━━━✦❘༻༺❘✦━━━━━━┓")
