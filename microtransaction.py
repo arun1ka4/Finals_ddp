@@ -12,7 +12,7 @@ data_akun = (
     {
         "username":"anggur_muda",
         "password":"yntkts",
-        "saldo":300000,
+        "saldo":3,
         "gems":10000000,
         "akun":"Biasa"
     }
